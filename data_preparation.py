@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 #IMPORT FILE
-df = pd.read_csv('C:/Users\intel/iCloudDrive/Belajar DS, ML, & AI/Tes VSC/New International_Education_Costs.csv')
+df = pd.read_csv('New International_Education_Costs.csv')
 
 #UPDATE DATA
 update_city = {
