@@ -20,3 +20,14 @@ city_sort = dp.df.groupby('City').agg({
 
 checking_table = dp.df[['Level', 'Program', 'University']]
 print(checking_table)
+
+
+# Cek hasil
+print(dp.df[['City', 'Living_Cost_Index', 'Total_Monthly_Need']].sort_values(by='Total_Monthly_Need', ascending=False).head(5))
+print(dp.df[['City', 'Living_Cost_Index', 'Total_Yearly_Need']].sort_values(by='Total_Yearly_Need', ascending=False).head(5))
+
+# Pastikan menggunakan nama kolom yang tepat: 'Avg_Tuition'
+dp.df_avg_tuition_Fix['Avg_Tuition_Yearly'] = dp.df_avg_tuition_Fix['Avg_Tuition'] * 2
+print(dp.df_avg_tuition)
+
+print(f"Rata-rata Kenaikan Tahunan: {dp.rata_rata_persen:.2f}%")

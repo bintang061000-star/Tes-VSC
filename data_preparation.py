@@ -2,9 +2,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import yfinance as yf
 
 #IMPORT FILE
 df = pd.read_csv('New International_Education_Costs.csv')
+df_avg_tuition = pd.read_csv('Private_Avg_Tuition.csv', sep=';')
+df_avg_tuition.to_csv('Avg_Tuition_Fix.csv', sep=',', index=False)
 
 #UPDATE DATA
 update_city = {
@@ -97,6 +100,22 @@ updated_living_costs = {
 #APPEND YEARLY COST COLUMNS
 rent_yearly = df['Rent_Yearly'] = df['Rent_USD'] * 12
 tuition_yearly = df['Tuition_Yearly'] = df['Tuition_USD'] * 2
+    
+#EXACT LIVING COSTS (MONTHLY)
+def exact_living_cost(dataframe):
+    baseline_spending = 1650                                                              
+    living_cost_excl_Rent = (dataframe['Living_Cost_Index'] / 100) * baseline_spending        
+    fix_living_cost = living_cost_excl_Rent + dataframe['Rent_USD']                              
+    return fix_living_cost
 
-#MARKET PRICE
-baseline_index_price = 1650
+#PERSENTAGE GROWTH AVG TUITION
+df_avg_tuition['Growth'] = df_avg_tuition['Avg_Tuition'].pct_change() * 100
+rata_rata_persen = df_avg_tuition['Growth'].mean()
+
+#EXCHANGE RATE USD/IDR (10 YEARS)
+def exchange_rate_growth():
+    data_kurs = yf.Ticker("IDR=X").history(period="10y")
+    kurs_tahunan = data_kurs['Close'].resample('YE').mean()
+    growth_kurs = kurs_tahunan.pct_change() * 100
+    rerata_kenaikan_kurs = growth_kurs.mean()
+    return rerata_kenaikan_kurs
