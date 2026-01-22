@@ -15,6 +15,12 @@ update_university = {
     'Massachusetts' : 'MIT'
 }
 
+update_level = {
+    'Bachelor' : 1,
+    'Master' : 2,
+    'PhD' : 3
+}
+
 updated_living_costs = {
     #Australia
     'Brisbane': 69.13,
@@ -91,3 +97,6 @@ updated_living_costs = {
 #APPEND YEARLY COST COLUMNS
 rent_yearly = df['Rent_Yearly'] = df['Rent_USD'] * 12
 tuition_yearly = df['Tuition_Yearly'] = df['Tuition_USD'] * 2
+
+#MARKET PRICE
+baseline_index_price = 1650

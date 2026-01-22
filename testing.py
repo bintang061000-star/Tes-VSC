@@ -1,5 +1,5 @@
 import data_preparation as dp
-import update_data as ud
+import update_data_preparation as ud
 
 import numpy as np
 import pandas as pd
@@ -17,3 +17,6 @@ city_sort = dp.df.groupby('City').agg({
     'University': 'first',        # Kolom Teks: Ambil nama universitas pertama yang muncul
     'Program': 'first'            # Kolom Teks: Ambil nama program pertama yang muncul
 }).sort_values(by='Living_Cost_Index', ascending=False).round(2)
+
+checking_table = dp.df[['Level', 'Program', 'University']]
+print(checking_table)
