@@ -1,11 +1,33 @@
 import data_preparation as dp
 
-#UPDATE ADJUST DATA
-dp.df['University'] = dp.df['University'].replace(dp.update_university)
-dp.df['City'] = dp.df['City'].replace(dp.update_city)
-dp.df['Living_Cost_Index'] = dp.df['Living_Cost_Index'].replace(dp.updated_living_costs)
-dp.df['Level'] = dp.df['Level'].replace(dp.update_level)
+# ================================
+# 1. PIPELINE PENGOLAHAN DATA
+# ================================
+print("Memproses Data Utama...")
 
-#TOTAL MONTHLY & YEARLY SPENDING
-dp.df['Total_Monthly_Need'] = dp.exact_living_cost(dp.df)
-dp.df['Total_Yearly_Need'] = dp.exact_living_cost(dp.df) * 12
+# Kita gunakan copy() agar dp.df asli tidak terganggu jika kita rerun script ini
+df_working = dp.df.copy() 
+
+df_clean = dp.update_data(df_working)
+df_clean = dp.append_yearly_costs(df_clean)
+df_clean = dp.exact_living_cost(df_clean) # Sekarang ini return DataFrame, jadi aman
+
+print("Menghitung Faktor Ekonomi...")
+us_tuition_inflation = dp.get_us_avg_growth(dp.df_us_tuition)
+uk_tuition_inflation = dp.get_uk_avg_growth(dp.df_uk_tuition)
+aus_tuition_inflation = dp.get_aus_avg_growth(dp.df_aus_tuition)
+kurs_inflation = dp.exchange_rate_growth()
+
+# ================================
+# 3. OUTPUT HASIL
+# ================================
+print("\n--- HASIL AKHIR ---")
+print(f"1. Rata-rata Inflasi Biaya Kuliah US: {us_tuition_inflation}%")
+print(f"2. Rata-rata Inflasi Biaya Kuliah UK: {uk_tuition_inflation}%")
+print(f"3. Rata-rata Inflasi Biaya Kuliah Australia: {aus_tuition_inflation}%")
+print(f"4. Rata-rata Kenaikan Kurs USD/IDR: {kurs_inflation}%")
+
+# print("\nContoh Data Frame Bersih (5 baris pertama):")
+# # Kolom 'Total_Yearly_Living_Cost' sekarang sudah pasti ada
+# show_coloum = ['University', 'City', 'Level', 'Tuition_Yearly', 'Rent_Yearly']
+# print(df_clean[show_coloum].head())
